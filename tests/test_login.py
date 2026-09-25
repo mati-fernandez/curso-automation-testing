@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 def test_login_exitoso():
@@ -10,19 +11,21 @@ def test_login_exitoso():
     # Abrir página
     driver.get("https://www.saucedemo.com/")
 
-    time.sleep(2)
 
     # Localizar elementos
-    user = driver.find_element(By.ID, "user-name")
-    password = driver.find_element(By.ID, "password")
-    login_button = driver.find_element(By.ID, "login-button")   
-
+    user = WebDriverWait(driver, 10).until(
+    EC.visibility_of_element_located((By.ID, "user-name"))
+)
+    password = WebDriverWait(driver, 10).until(
+    EC.visibility_of_element_located((By.ID, "password"))
+)    
+    login_button = WebDriverWait(driver, 10).until(
+    EC.visibility_of_element_located((By.ID, "login-button"))
+)
 
     # Completar formulario
     user.send_keys("standard_user")
     password.send_keys("secret_sauce")   
-
-    time.sleep(2)
 
     # Hacer login
     login_button.click()
@@ -34,11 +37,6 @@ def test_login_exitoso():
     titulo = driver.find_element(By.CSS_SELECTOR, "[data-test='title']")
     assert titulo.text == "Products"
     
-    input("Presiona alguna tecla para cerrar...")
-
-    time.sleep(2)
-
-
     driver.quit()
 
 # def test_login_usuario_invalido():
