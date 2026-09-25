@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .env
+ejercicio_extra/
+.pytest_cache/
+
